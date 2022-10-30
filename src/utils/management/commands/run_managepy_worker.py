@@ -23,8 +23,8 @@ class Command(BaseCommand):
         )
         parser.add_argument(
             "--sleep",
-            type=int,
-            default=60,
+            type=float,
+            default=0.1,
             help="The number of seconds to sleep between calls",
         )
 
@@ -73,5 +73,5 @@ class Command(BaseCommand):
                 if self.exit_now:
                     sys.exit(0)
                 else:
-                    i += 1
-                    sleep(1)
+                    i += 0.1
+                    sleep(0.1)
