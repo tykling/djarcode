@@ -129,3 +129,4 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 #PAD_URL = "https://example.com/api"
 #PAD_KEY = "123456789abcdef"
 #PAD_NAME = "my-pad"
+#BUZZER_GPIO_PIN = 23
