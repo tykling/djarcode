@@ -125,3 +125,7 @@ STATIC_URL = "static/"
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+#PAD_URL = "https://example.com/api"
+#PAD_KEY = "123456789abcdef"
+#PAD_NAME = "my-pad"

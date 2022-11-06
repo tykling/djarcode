@@ -1,5 +1,6 @@
 import uuid
-
+from etherpad_lite import EtherpadLiteClient
+from bs4 import BeautifulSoup
 from django.db import models
 
 
@@ -11,3 +12,16 @@ class Reading(models.Model):
 
     def __str__(self):
         return f"{self.barcode} scanned at {self.created}"
+
+    def add_to_pad(self):
+        """Add this reading to the shoppinglist."""
+        for req in ["PAD_URL", "PAD_KEY", "PAD_NAME"]:
+            if req not in settings:
+                print(f"missing setting: {req}")
+                return
+        c = EtherpadLiteClient(base_url=settings.PAD_URL, base_params={'apikey': settings.PAD_KEY})
+        soup = BeautifulSoup(c.getHTML(padID=settings.PAD_NAME)["html"])
+        li = soup.new_tag("li")
+        li.string = self.barcode
+        soup.body.ul.append(li)
+        c.setHTML(padID=settings.PAD_NAME, html=str(soup), authorId="djarcode")
