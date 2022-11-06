@@ -9,7 +9,7 @@ def play_sound():
         return
     GPIO.setmode(GPIO.BCM)
     GPIO.setup(settings.BUZZER_GPIO_PIN, GPIO.OUT)
-    buzzer = GPIO.PWM(triggerPIN, 698)
+    buzzer = GPIO.PWM(settings.BUZZER_GPIO_PIN, 698)
     for _ in range(3):
         buzzer.ChangeFrequency(698)
         buzzer.start(50)
