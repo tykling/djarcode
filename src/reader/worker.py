@@ -17,7 +17,14 @@ def do_work():
         return
     barcode, created = Barcode.objects.get_or_create(barcode=data)
     reading = Reading.objects.create(barcode=barcode)
-    reading.add_to_pad()
-    print(f"Created Reading object with UUID {reading.uuid} for {'new' if created else 'existing'} barcode")
-    if not barcode.product:
-        play_sound()
+    logger.debug(f"Created Reading object with UUID {reading.uuid} for {'new' if created else 'existing'} barcode")
+
+    # add to pad and play feedback sound(s)
+    try:
+        reading.add_to_pad()
+        if barcode.product:
+            play_sound("success")
+        else:
+            play_sound("newproduct")
+    except Exception:
+        play_sound("error")
