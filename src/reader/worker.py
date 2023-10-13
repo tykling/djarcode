@@ -15,7 +15,12 @@ def do_work():
     data = input("Barcode: ")
     if not data:
         return
-    barcode, created = Barcode.objects.get_or_create(barcode=data)
+    try:
+        barcode, created = Barcode.objects.get_or_create(barcode=data)
+        logger.debug(f"Ignoring reading {data} - too short or otherwise invalid")
+    except ValidationError:
+        # barcode invalid, too short/error reading
+        return
     reading = Reading.objects.create(barcode=barcode)
     logger.debug(f"Created Reading object with UUID {reading.uuid} for {'new' if created else 'existing'} barcode")
 
