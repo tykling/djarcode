@@ -2,6 +2,7 @@ import logging
 from .models import Reading
 from barcodes.models import Barcode
 from utils.buzzer import play_sound
+from django.core.exceptions import ValidationError
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("djarcode.%s" % __name__)
@@ -18,6 +19,7 @@ def do_work():
     try:
         barcode, created = Barcode.objects.get_or_create(barcode=data)
         logger.debug(f"Ignoring reading {data} - too short or otherwise invalid")
+        barcode.full_clean()
     except ValidationError:
         # barcode invalid, too short/error reading
         return
